@@ -42,14 +42,13 @@ jobs:
         rm -f IPTV.m3u && touch IPTV.m3u
         cat CCTV.m3u >> IPTV.m3u
         cat CNTV.m3u >> IPTV.m3u
-        cat Adult.m3u >> IPTV.m3u
         sed -i '/#EXTM3U/d' IPTV.m3u
         sed -i '1i #EXTM3U' IPTV.m3u
         sed -i '/^\s*$/d' IPTV.m3u
 
         # 节目源
         rm -f EPG.xml && wget https://epg.112114.xyz/pp.xml -O EPG.xml
-        echo "Auto Update IPTV in ${GET_TIME}" > README.md
+        echo "Auto Update IPTV(ipv6) in $DATE,基于Moexin/IPTV项目修改,国内直播源同步fanmingming/live" > README.md
 
     - name: Clean
       run: |
