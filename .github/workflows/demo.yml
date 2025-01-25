@@ -46,9 +46,6 @@ jobs:
         sed -i '1i #EXTM3U' IPTV.m3u
         sed -i '/^\s*$/d' IPTV.m3u
 
-        # 节目源
-        rm -f EPG.xml && wget https://epg.112114.xyz/pp.xml -O EPG.xml
-        echo "Auto Update IPTV in ${GET_TIME}" > README.md
 
     - name: Clean
       run: |
