@@ -1,8 +1,7 @@
 name: Update
 
 on:
-  watch:
-    types: [started]
+  push:
   schedule:
     - cron: 0,30 * * * *
   workflow_dispatch:
@@ -59,8 +58,8 @@ jobs:
         git checkout --orphan latest_branch
         git add -A
         git commit -am "$DATE"
-        git branch -D main
-        git branch -m main
+        git branch -D Files
+        git branch -m Files
 
     - name: Push
-      run: git push -f origin main
+      run: git push -f origin Files
