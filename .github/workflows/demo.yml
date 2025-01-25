@@ -46,6 +46,10 @@ jobs:
         sed -i '1i #EXTM3U' IPTV.m3u
         sed -i '/^\s*$/d' IPTV.m3u
 
+        # 节目源
+        rm -f EPG.xml && wget https://epg.112114.xyz/pp.xml -O EPG.xml
+        echo "Auto Update IPTV in ${GET_TIME}" > README.md
+
 
     - name: Clean
       run: |
@@ -53,9 +57,9 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git checkout --orphan latest_branch
         git add -A
-        git commit -am "${GET_TIME}"
-        git branch -D Files
-        git branch -m Files
+        git commit -am "$DATE"
+        git branch -D main
+        git branch -m main
 
     - name: Push
-      run: git push -f origin Files
+      run: git push -f origin main
