@@ -17,7 +17,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ssh-key: ${{ secrets.jsyfhome }}
+        ssh-key: ${{ secrets.iptvlist }}
 
     - name: GetTime
       run: echo "DATE=$(date +'%Y-%m-%d %H:%M:%S CST')" >> $GITHUB_ENV
