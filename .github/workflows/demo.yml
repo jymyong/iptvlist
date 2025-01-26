@@ -1,77 +1,18 @@
-name: Update
-
-on:
-  push:
-  schedule:
-
-
-env:
-  TZ: Asia/Shanghai
-
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  Update:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: GetTime
-      run: echo "GET_TIME=$(date +'%Y-%m-%d %H:%M:%S CST')" >> $GITHUB_ENV
-
-    - name: Update
-      run: |
-        # 央视源
-        rm -f CCTV.m3u && wget https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u -O CCTV.m3u
-        sed -i -n '/央视/,+1p' CCTV.m3u
-        sed -i '1i #EXTM3U' CCTV.m3u
-        sed -i '/^\s*$/d' CCTV.m3u
-
-        # 卫视源
-        rm -f CNTV.m3u && touch CNTV.m3u
-        wget https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u -O CNTV1.m3u && sed -i -n '/卫视/,+1p' CNTV1.m3u
-        wget https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u -O CNTV2.m3u && sed -i -n '/数字/,+1p' CNTV2.m3u
-        wget https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/ipv6.m3u -O CNTV3.m3u && sed -i -n '/百视/,+1p' CNTV3.m3u
-        cat CNTV1.m3u >> CNTV.m3u
-        cat CNTV2.m3u >> CNTV.m3u
-        cat CNTV3.m3u >> CNTV.m3u
-        rm -f CNTV1.m3u CNTV2.m3u CNTV3.m3u
-        sed -i '1i #EXTM3U' CNTV.m3u
-        sed -i '/^\s*$/d' CNTV.m3u
-
-        # 成人源
-        rm -f Adult.m3u && wget http://adultiptv.net/chs.m3u -O Adult.m3u
-        sed -i -n '/XXX/,+1p' Adult.m3u
-        sed -i 's/XXX/成人频道/' Adult.m3u
-        sed -i 's/AdultIPTV.net //g' Adult.m3u
-        # wget https://raw.githubusercontent.com/YanG-1989/m3u/main/Adult.m3u -O AdultVideo.txt
-        # sed -i -n '/日本/,+1p' AdultVideo.txt
-        # sed -i 's/日本/成人视频/' AdultVideo.txt
-        # echo '' >> Adult.m3u && cat AdultVideo.txt >> Adult.m3u
-        # rm -f AdultVideo.txt
-        sed -i '/^\s*$/d' Adult.m3u
-
-        # 整合源
-        rm -f IPTV.m3u && touch IPTV.m3u
-        cat CCTV.m3u >> IPTV.m3u
-        cat CNTV.m3u >> IPTV.m3u
-        cat Adult.m3u >> IPTV.m3u
-        sed -i '/#EXTM3U/d' IPTV.m3u
-        sed -i '1i #EXTM3U' IPTV.m3u
-        sed -i '/^\s*$/d' IPTV.m3u
-
-        # 节目源
-        rm -f EPG.xml && wget https://epg.112114.xyz/pp.xml -O EPG.xml
-        echo "Auto Update IPTV in ${GET_TIME}" > README.md
-
-    - name: Clean
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git checkout --orphan latest_branch
-        git add -A
-        git commit -am "${GET_TIME}"
-        git branch -D Files
-        git branch -m Files
-
-    - name: Push
-      run: git push -f origin Files
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
